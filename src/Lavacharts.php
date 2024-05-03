@@ -68,6 +68,14 @@ class Lavacharts
      * @var \Khill\Lavacharts\Javascript\ScriptManager
      */
     private $scriptManager;
+    /**
+     * @var ChartFactory
+     */
+    private $chartFactory;
+    /**
+     * @var DashboardFactory
+     */
+    private $dashFactory;
 
     /**
      * Lavacharts constructor.
