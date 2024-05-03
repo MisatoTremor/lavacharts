@@ -1,5 +1,8 @@
 - 3.1.15
-  - Fixed PHP 8.1 compatibility issues between `JavascriptDate` and `Carbon`, which may cause opcache compilation failures. 
+  - Fixed PHP 8.1 compatibility issues between `JavascriptDate` and `Carbon`, which may cause opcache compilation failures.
+  - Fixed Jsonable return type
+  - Fixed dynamic property creation
+  - Allow Carbon 3
 
 - 3.1.9
   - Fixing bug where using `setOptions` instead of the constructor skipped the processing of `png` and `material` attributes.
