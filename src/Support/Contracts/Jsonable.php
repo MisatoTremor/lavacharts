@@ -31,5 +31,6 @@ interface Jsonable extends JsonSerializable
      *
      * @return array
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize();
 }
