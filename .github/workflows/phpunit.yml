@@ -1,0 +1,43 @@
+name: PHPUnit
+
+on:
+    push:
+    pull_request:
+
+jobs:
+    tests:
+        name: Unit Tests
+
+        strategy:
+            matrix:
+                include:
+                    -   php: '8.2'
+                    -   php: '8.3'
+            fail-fast: false
+
+        runs-on: ubuntu-20.04
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: "${{ matrix.php }}"
+                    extensions: fileinfo, iconv, intl, json, mbstring, simplexml, sqlite, zip
+                    ini-values: memory_limit=4G
+                    coverage: xdebug
+
+            -   name: Validate Composer
+                run: composer validate
+                shell: bash
+
+            -   name: Install dependencies
+                uses: ramsey/composer-install@v2
+                with:
+                    composer-options: --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts
+
+            -   name: Run tests
+                run: composer run --no-interaction test
+                shell: bash
