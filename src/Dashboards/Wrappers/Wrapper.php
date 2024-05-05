@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
+use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
@@ -50,7 +51,7 @@ class Wrapper extends Customizable implements \JsonSerializable, Jsonable, JsCla
     {
         $this->contents  = $itemToWrap;
         $this->elementId = $elementId;
-		$this->options = array();
+        $this->options = array();
     }
 
     /**

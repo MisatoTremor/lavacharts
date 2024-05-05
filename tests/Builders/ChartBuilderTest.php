@@ -5,20 +5,20 @@ namespace Khill\Lavacharts\Tests\Builders;
 use Khill\Lavacharts\Builders\ChartBuilder;
 use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
+use PHPUnit\Framework\Attributes\Depends;
 
-/**
- * @property \Khill\Lavacharts\Builders\ChartBuilder builder
- */
 class ChartBuilderTest extends ProvidersTestCase
 {
-    public function setUp()
+    private ChartBuilder $builder;
+
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->builder = new ChartBuilder();
     }
 
-    public function testWithLabelAndDataTable()
+    public function testWithLabelAndDataTable(): void
     {
         $this->builder->setType('LineChart');
         $this->builder->setLabel('taco');
@@ -31,10 +31,8 @@ class ChartBuilderTest extends ProvidersTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Datatables\Datatable', $chart->getDataTable());
     }
 
-    /**
-     * @depends testWithLabelAndDataTable
-     */
-    public function testWithLabelAndDataTableAndOptions()
+    #[Depends('testWithLabelAndDataTable')]
+    public function testWithLabelAndDataTableAndOptions(): void
     {
         $this->builder->setType('LineChart');
         $this->builder->setLabel('taco');
@@ -48,11 +46,9 @@ class ChartBuilderTest extends ProvidersTestCase
         $this->assertEquals('good', $options['tacos']);
     }
 
-    /**
-     * @depends testWithLabelAndDataTable
-     * @depends testWithLabelAndDataTableAndOptions
-     */
-    public function testWithLabelAndDataTableAndOptionsAndElementId()
+    #[Depends('testWithLabelAndDataTable')]
+    #[Depends('testWithLabelAndDataTableAndOptions')]
+    public function testWithLabelAndDataTableAndOptionsAndElementId(): void
     {
         $this->builder->setType('LineChart');
         $this->builder->setLabel('taco');

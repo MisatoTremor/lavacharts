@@ -72,7 +72,6 @@ class DashboardJsFactory extends JavascriptFactory
 
         /** @var \Khill\Lavacharts\Charts\Chart $chart */
         foreach ($this->dashboard->getBoundCharts() as $chart) {
-
             array_push($vars['packages'], $chart->getJsPackage());
         }
 

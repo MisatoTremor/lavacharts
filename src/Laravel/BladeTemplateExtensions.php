@@ -30,7 +30,6 @@ $renderables = array_merge(['Dashboard'], ChartFactory::$CHART_TYPES);
 
 
 foreach ($renderables as $chart) {
-
     if (method_exists($blade, 'directive')) {
 // Laravel 5
         $blade->directive(strtolower($chart), function ($expression) use ($chart) {
@@ -39,9 +38,7 @@ foreach ($renderables as $chart) {
 
             return "<?php echo \Lava::render('$chart', $expression); ?>";
         });
-
     } else {
-
 // Laravel 4
         $blade->extend(
             function ($view, $compiler) use ($chart) {
@@ -51,6 +48,5 @@ foreach ($renderables as $chart) {
                 return preg_replace($pattern, $output, $view);
             }
         );
-
     }
 }

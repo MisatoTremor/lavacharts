@@ -10,12 +10,14 @@ use Khill\Lavacharts\DataTables\DataTable;
 /**
  * @property \Mockery\Mock                               mockChartLabel
  * @property \Mockery\Mock                               mockElementId
- * @property \Khill\Lavacharts\Javascript\ChartJsFactory factory
  * @property \Mockery\Mock                               mlc
  */
+#[\AllowDynamicProperties]
 class ChartJsFactoryTest extends ProvidersTestCase
 {
-    public function setUp()
+    private ChartJsFactory $factory;
+
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -42,7 +44,7 @@ class ChartJsFactoryTest extends ProvidersTestCase
         $this->factory = new ChartJsFactory($this->mlc);
     }
 
-    public function testGetTemplateVars()
+    public function testGetTemplateVars(): void
     {
         $getTemplateVars = new \ReflectionMethod($this->factory, 'getTemplateVars');
         $getTemplateVars->setAccessible(true);
@@ -57,7 +59,10 @@ class ChartJsFactoryTest extends ProvidersTestCase
         $this->assertEquals($templateVars['chartClass'], 'google.visualization.LineChart');
         $this->assertEquals($templateVars['chartPackage'], 'corechart');
 
-        $this->assertEquals($templateVars["chartData"], '{"cols":[{"type":"number"},{"type":"number"},{"type":"number"}],"rows":[{"c":[{"v":10101},{"v":12345},{"v":67890}]}]}');
+        $this->assertEquals(
+            $templateVars["chartData"],
+            '{"cols":[{"type":"number"},{"type":"number"},{"type":"number"}],"rows":[{"c":[{"v":10101},{"v":12345},{"v":67890}]}]}'
+        );
 
         $this->assertEquals($templateVars['elemId'], 'chart-div');
         $this->assertEquals($templateVars['pngOutput'], false);

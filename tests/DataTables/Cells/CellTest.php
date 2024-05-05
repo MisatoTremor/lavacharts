@@ -4,77 +4,67 @@ namespace Khill\Lavacharts\Tests\DataTables\Cells;
 
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Cells\Cell;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
+#[CoversMethod(Cell::class, '__construct')]
+#[CoversMethod(Cell::class, 'getValue')]
+#[CoversMethod(Cell::class, 'getFormat')]
+#[CoversMethod(Cell::class, 'getOptions')]
+#[CoversMethod(Cell::class, 'jsonSerialize')]
 class CellTest extends ProvidersTestCase
 {
-    public $Cell;
+    public Cell $Cell;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::__construct
-     */
-    public function testConstructorArgs()
+    public function testConstructorArgs(): void
     {
         $column = new Cell(1, 'low', ['textstyle' => ['fontName' => 'Arial']]);
 
         $this->assertEquals(1, $this->inspect($column, 'v'));
         $this->assertEquals('low', $this->inspect($column, 'f'));
-        //@TODO investigate this
-        //$this->assertTrue(is_array($this->inspect($column, 'p')));
+        // Virtual property
+        $this->assertIsArray($column->p);
     }
 
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidParamType
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::__construct
-     */
-    public function testConstructorArgFormatWithBadType($badTypes)
+    #[DataProvider('nonStringProvider')]
+    public function testConstructorArgFormatWithBadType($badTypes): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidParamType::class);
         new Cell(1, $badTypes);
     }
-    
-    /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::getValue
-     */
-    public function testGetValue()
+
+    #[Depends('testConstructorArgs')]
+    public function testGetValue(): void
     {
         $column = new Cell(1);
 
         $this->assertEquals(1, $column->getValue());
     }
 
-    /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::getFormat
-     */
-    public function testGetFormat()
+    #[Depends('testConstructorArgs')]
+    public function testGetFormat(): void
     {
         $column = new Cell(1, 'low');
 
         $this->assertEquals('low', $column->getFormat());
     }
 
-    /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::getOptions
-     */
-    public function testGetOptions()
+    #[Depends('testConstructorArgs')]
+    public function testGetOptions(): void
     {
         $column = new Cell(1, 'low', ['textstyle' => ['fontName' => 'Arial']]);
 
-        $this->assertTrue(is_array($column->getOptions()));
+        $this->assertIsArray($column->getOptions());
     }
 
-    /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::jsonSerialize
-     */
-    public function testJsonSerialization()
+    #[Depends('testConstructorArgs')]
+    public function testJsonSerialization(): void
     {
         $column = new Cell(1, 'low', ['textstyle' => ['fontName' => 'Arial']]);
 
@@ -83,6 +73,3 @@ class CellTest extends ProvidersTestCase
         $this->assertEquals($json, json_encode($column));
     }
 }
-
-
-

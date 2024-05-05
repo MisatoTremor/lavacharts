@@ -42,5 +42,4 @@ class JavascriptDate extends Carbon
 
         parent::__construct(sprintf('%s-%s-%s %s:%02s:%02s', $year, $month, $day, $hour, $minute, $second), $tz);
     }
-
 }

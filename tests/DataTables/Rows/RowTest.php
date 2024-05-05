@@ -3,14 +3,22 @@
 namespace Khill\Lavacharts\Tests\DataTables\Rows;
 
 use Khill\Lavacharts\DataTables\Rows\Row;
+use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Mockery;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
+use Carbon\Carbon;
+use Khill\Lavacharts\DataTables\Cells\DateCell;
 
+#[CoversMethod(Row::class, '__construct')]
+#[CoversMethod(Row::class, 'getCell')]
+#[CoversMethod(Row::class, 'jsonSerialize')]
 class RowTest extends ProvidersTestCase
 {
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::__construct
-     */
-    public function testConstructorWithNonCarbonValues()
+    public function testConstructorWithNonCarbonValues(): void
     {
         $row = new Row(['bob', 1, 2.0]);
 
@@ -21,71 +29,56 @@ class RowTest extends ProvidersTestCase
         $this->assertEquals(2.0, $values[2]->getValue());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::__construct
-     */
-    public function testConstructorWithCarbon()
+    public function testConstructorWithCarbon(): void
     {
-        $mockCarbon = \Mockery::mock('\Carbon\Carbon')->makePartial();
+        $mockCarbon = Mockery::mock(Carbon::class)->makePartial();
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
         $values = $this->inspect($row, 'values');
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $values[0]);
+        $this->assertInstanceOf(DateCell::class, $values[0]);
         $this->assertEquals(1, $values[1]->getValue());
         $this->assertEquals(2.0, $values[2]->getValue());
     }
 
-    /**
-     * @depends testConstructorWithCarbon
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
-     */
-    public function testGetColumnValue()
+    #[Depends('testConstructorWithCarbon')]
+    public function testGetColumnValue(): void
     {
-        $mockCarbon = \Mockery::mock('\Carbon\Carbon')->makePartial();
+        $mockCarbon = Mockery::mock(Carbon::class)->makePartial();
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $row->getCell(0));
+        $this->assertInstanceOf(DateCell::class, $row->getCell(0));
         $this->assertEquals(1, $row->getCell(1)->getValue());
         $this->assertEquals(2.0, $row->getCell(2)->getValue());
     }
 
-    /**
-     * @depends testConstructorWithCarbon
-     * @dataProvider nonIntProvider
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
-     */
-    public function testGetColumnValueWithBadType($badTypes)
+    #[Depends('testConstructorWithCarbon')]
+    #[DataProvider('nonIntProvider')]
+    public function testGetColumnValueWithBadType($badTypes): void
     {
-        $mockCarbon = \Mockery::mock('\Carbon\Carbon')->makePartial();
+        $this->expectException(InvalidColumnIndex::class);
+        $mockCarbon = Mockery::mock(Carbon::class)->makePartial();
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
         $row->getCell($badTypes);
     }
 
-    /**
-     * @depends testConstructorWithCarbon
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
-     */
-    public function testGetColumnValueWithInvalidColumnIndex()
+    #[Depends('testConstructorWithCarbon')]
+    public function testGetColumnValueWithInvalidColumnIndex(): void
     {
+        $this->expectException(InvalidColumnIndex::class);
         $row = new Row([1]);
 
         $row->getCell(41);
     }
 
-    /**
-     * @depends testConstructorWithCarbon
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::jsonSerialize
-     */
-    public function testJsonSerialization()
+    #[Depends('testConstructorWithCarbon')]
+    public function testJsonSerialization(): void
     {
-        $mockCarbon = \Mockery::mock('\Carbon\Carbon[parse]', ['1988-03-24 1:23:45']);
+        $mockCarbon = Mockery::mock('\Carbon\Carbon[parse]', ['1988-03-24 1:23:45']);
 
         $row = new Row([$mockCarbon, 1, 2.1]);
 

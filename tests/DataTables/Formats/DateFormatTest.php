@@ -1,18 +1,21 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Formats;
+namespace Khill\Lavacharts\Tests\DataTables\Formats;
 
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Formats\DateFormat;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
-/**
- * @property \Khill\Lavacharts\DataTables\Formats\DateFormat dateFormat
- */
+#[CoversClass(DateFormat::class)]
+#[CoversMethod(DateFormat::class, 'toJson')]
+#[CoversMethod(DateFormat::class, 'jsonSerialize')]
 class DateFormatTest extends ProvidersTestCase
 {
     public $json = '{"formatType":"short","pattern":"Y-m-d","timeZone":"PDT"}';
+    private DateFormat $dateFormat;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->dateFormat = new DateFormat([
             'formatType' => 'short',
@@ -21,42 +24,33 @@ class DateFormatTest extends ProvidersTestCase
         ]);
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat
-     */
-    public function testConstructorOptionAssignment()
+    public function testConstructorOptionAssignment(): void
     {
         $this->assertEquals('short', $this->dateFormat['formatType']);
         $this->assertEquals('Y-m-d', $this->dateFormat['pattern']);
-        $this->assertEquals('PDT',   $this->dateFormat['timeZone']);
+        $this->assertEquals('PDT', $this->dateFormat['timeZone']);
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->dateFormat = new DateFormat;
 
         $this->assertEquals('DateFormat', $this->dateFormat->getType());
     }
 
-    public function testGetJsClass()
+    public function testGetJsClass(): void
     {
         $jsClass = 'google.visualization.DateFormat';
 
         $this->assertEquals($jsClass, $this->dateFormat->getJsClass());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat::toJson()
-     */
-    public function testToJson()
+    public function testToJson(): void
     {
         $this->assertEquals($this->json, $this->dateFormat->toJson());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat::jsonSerialize()
-     */
-    public function testJsonSerialization()
+    public function testJsonSerialization(): void
     {
         $this->assertEquals($this->json, json_encode($this->dateFormat));
     }

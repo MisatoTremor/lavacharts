@@ -10,9 +10,10 @@ use Khill\Lavacharts\Tests\ProvidersTestCase;
  * @property \Mockery\Mock                            mockControlWrap
  * @property \Khill\Lavacharts\Tests\Charts\MockChart mockChart
  */
+#[\AllowDynamicProperties]
 class DashboardsTestCase extends ProvidersTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

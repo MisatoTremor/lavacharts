@@ -4,10 +4,11 @@ namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 define('DATATABLE_NS', "\\Khill\\Lavacharts\\DataTables\\");
 
-abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
+abstract class ProvidersTestCase extends MockeryTestCase
 {
     /**
      * Namespace for Mocks
@@ -21,7 +22,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      */
     protected $partialDataTable;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -39,7 +40,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      * @param $haystack
      * @param $needle
      */
-    public function assertStringHasString($haystack, $needle)
+    public function assertStringHasString($haystack, $needle): void
     {
         $this->assertTrue(strpos($haystack, $needle) !== false);
     }
@@ -51,10 +52,9 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      * @param  string $prop
      * @return mixed
      */
-    public function inspect($obj, $prop)
+    public function inspect($obj, $prop): mixed
     {
         $refObj = new \ReflectionProperty($obj, $prop);
-        $refObj->setAccessible(true);
 
         return $refObj->getValue($obj);
     }
@@ -64,7 +64,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function columnTypeProvider()
+    public static function columnTypeProvider(): array
     {
         return array_map(function ($columnType) {
             return [$columnType];
@@ -76,7 +76,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function chartTypeProvider()
+    public static function chartTypeProvider(): array
     {
         return array_map(function ($chartType) {
             return [$chartType];
@@ -89,7 +89,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      * @param  string $label
      * @return \Mockery\Mock
      */
-    public function getMockLabel($label)
+    public function getMockLabel($label): object
     {
         return \Mockery::mock('\Khill\Lavacharts\Values\Label', [$label])->makePartial();
     }
@@ -100,7 +100,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      * @param  string $label
      * @return \Mockery\Mock
      */
-    public function getMockElementId($label)
+    public function getMockElementId($label): object
     {
         return \Mockery::mock('\Khill\Lavacharts\Values\ElementId', [$label])->makePartial();
     }
@@ -110,12 +110,12 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return \Mockery\Mock
      */
-    public function getMockDataTable()
+    public function getMockDataTable(): object
     {
         return \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
     }
 
-    public function nonStringOrIntProvider()
+    public static function nonStringOrIntProvider(): array
     {
         return [
             [3.2],
@@ -126,7 +126,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonIntOrPercentProvider()
+    public static function nonIntOrPercentProvider(): array
     {
         return [
             [3.2],
@@ -138,7 +138,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonCarbonOrDateStringProvider()
+    public static function nonCarbonOrDateStringProvider(): array
     {
         return [
             [9],
@@ -149,7 +149,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonCarbonOrDateOrEmptyArrayProvider()
+    public static function nonCarbonOrDateOrEmptyArrayProvider(): array
     {
         return [
             ['cheese'],
@@ -161,7 +161,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonStringOrNullProvider()
+    public static function nonStringOrNullProvider(): array
     {
         return [
             [9],
@@ -173,7 +173,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonStringProvider()
+    public static function nonStringProvider(): array
     {
         return [
             [9],
@@ -186,7 +186,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonBoolProvider()
+    public static function nonBoolProvider(): array
     {
         return [
             ['Imastring'],
@@ -197,7 +197,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonIntProvider()
+    public static function nonIntProvider(): array
     {
         return [
             ['Imastring'],
@@ -209,7 +209,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonFloatProvider()
+    public static function nonFloatProvider(): array
     {
         return [
             ['Imastring'],
@@ -221,7 +221,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonNumericProvider()
+    public static function nonNumericProvider(): array
     {
         return [
             ['Imastring'],
@@ -232,7 +232,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonArrayProvider()
+    public static function nonArrayProvider(): array
     {
         return [
             ['Imastring'],

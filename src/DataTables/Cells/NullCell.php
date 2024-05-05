@@ -28,4 +28,3 @@ class NullCell extends Cell
         parent::__construct(null);
     }
 }
-

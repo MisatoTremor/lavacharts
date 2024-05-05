@@ -32,25 +32,25 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
     </head>
     <body>
         <div class="render" id="<?= $id ?>">
-            <? if ($chartType == 'Dashboard') { ?>
+            <?php if ($chartType == 'Dashboard') { ?>
                 <div id="chart-div-id"></div>
                 <div id="control-div-id"></div>
-            <? } ?>
+            <?php } ?>
         </div>
             <div id="lavachart">
-                <? if (strpos($chartType, 'To') > 0) { ?>
+                <?php if (strpos($chartType, 'To') > 0) { ?>
                     <div id="chart1-div-id"></div>
                     <div id="chart2-div-id"></div>
                     <div id="control1-div-id"></div>
                     <div id="control2-div-id"></div>
-                <? } ?>
+                <?php } ?>
             </div>
 <?php
-            if (strpos($chartType, 'Chart') > 0) {
-                echo $lava->render($chartType, $title);
-            } else {
-                echo $lava->render('Dashboard', $title);
-            }
+if (strpos($chartType, 'Chart') > 0) {
+    echo $lava->render($chartType, $title);
+} else {
+    echo $lava->render('Dashboard', $title);
+}
 ?>
     <script type="text/javascript">
         lava.ready(function() {

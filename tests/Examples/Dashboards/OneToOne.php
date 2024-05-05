@@ -2,7 +2,7 @@
     $data = $lava->DataTable([
         ['string', 'Name'],
         ['number', 'Donuts Eaten']
-    ],[
+    ], [
         ['Michael',   5],
         ['Elisa',     7],
         ['Robert',    3],

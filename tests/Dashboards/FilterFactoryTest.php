@@ -1,13 +1,15 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Dashboards\Filters;
+namespace Khill\Lavacharts\Tests\Dashboards;
 
 use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 class FilterFactoryTest extends ProvidersTestCase
 {
-    public function filterTypeProvider()
+    public static function filterTypeProvider(): array
     {
         return [
             ['Category'],
@@ -18,10 +20,8 @@ class FilterFactoryTest extends ProvidersTestCase
         ];
     }
 
-    /**
-     * @dataProvider filterTypeProvider
-     */
-    public function testStaticCreateMethodWithColumnIndex($filterType)
+    #[DataProvider('filterTypeProvider')]
+    public function testStaticCreateMethodWithColumnIndex($filterType): void
     {
         $filterClass = FilterFactory::create($filterType, 2);
 
@@ -30,10 +30,8 @@ class FilterFactoryTest extends ProvidersTestCase
         $this->assertEquals(2, $options['filterColumnIndex']);
     }
 
-    /**
-     * @dataProvider filterTypeProvider
-     */
-    public function testStaticCreateMethodWithColumnLabel($filterType)
+    #[DataProvider('filterTypeProvider')]
+    public function testStaticCreateMethodWithColumnLabel($filterType): void
     {
         $filterClass = FilterFactory::create($filterType, 'myColumnLabel');
 
@@ -42,11 +40,9 @@ class FilterFactoryTest extends ProvidersTestCase
         $this->assertEquals('myColumnLabel', $options['filterColumnLabel']);
     }
 
-    /**
-     * @dataProvider filterTypeProvider
-     * @depends testStaticCreateMethodWithColumnLabel
-     */
-    public function testStaticCreateMethodWithColumnLabelAndOptions($filterType)
+    #[Depends('testStaticCreateMethodWithColumnLabel')]
+    #[DataProvider('filterTypeProvider')]
+    public function testStaticCreateMethodWithColumnLabelAndOptions($filterType): void
     {
         $filterClass = FilterFactory::create($filterType, 'myColumnLabel', ['floatOption' => 12.34]);
 
@@ -55,21 +51,17 @@ class FilterFactoryTest extends ProvidersTestCase
         $this->assertEquals(12.34, $options['floatOption']);
     }
 
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidFilterType
-     */
-    public function testStaticCreateMethodWithInvalidType($badType)
+    #[DataProvider('nonStringProvider')]
+    public function testStaticCreateMethodWithInvalidType($badType): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidFilterType::class);
         FilterFactory::create($badType, 1);
     }
 
-    /**
-     * @dataProvider nonStringOrIntProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidParamType
-     */
-    public function testStaticCreateMethodWithInvalidIndex($badType)
+    #[DataProvider('nonStringOrIntProvider')]
+    public function testStaticCreateMethodWithInvalidIndex($badType): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidParamType::class);
         FilterFactory::create('String', $badType);
     }
 }

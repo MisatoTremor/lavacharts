@@ -4,10 +4,12 @@ namespace Khill\Lavacharts\Tests\Charts;
 
 use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 class ChartTest extends ProvidersTestCase
 {
-    public function makeLineChart($options = [])
+    public function makeLineChart($options = []): LineChart
     {
         return new LineChart(
             $this->getMockLabel('TestChart'),
@@ -16,10 +18,8 @@ class ChartTest extends ProvidersTestCase
         );
     }
 
-    /**
-     * @dataProvider chartTypeProvider
-     */
-    public function testInstanceCreation($chartType)
+    #[DataProvider('chartTypeProvider')]
+    public function testInstanceCreation($chartType): void
     {
         $chartFQN = "Khill\\Lavacharts\\Charts\\".$chartType;
 
@@ -33,10 +33,8 @@ class ChartTest extends ProvidersTestCase
         $this->assertInstanceOf(DATATABLE_NS.'DataTable', $chart->getDataTable());
     }
 
-    /**
-     * @depends testInstanceCreation
-     */
-    public function testSettingOptionsWithConstructor()
+    #[Depends('testInstanceCreation')]
+    public function testSettingOptionsWithConstructor(): void
     {
         $chart = $this->makeLineChart(
             ['colors' => ['red', 'green']]
@@ -49,10 +47,8 @@ class ChartTest extends ProvidersTestCase
         $this->assertEquals(['red', 'green'], $options['colors']);
     }
 
-    /**
-     * @depends testSettingOptionsWithConstructor
-     */
-    public function testGetOptions()
+    #[Depends('testSettingOptionsWithConstructor')]
+    public function testGetOptions(): void
     {
         $chart = $this->makeLineChart(
             ['colors' => ['red', 'green']]
@@ -64,10 +60,8 @@ class ChartTest extends ProvidersTestCase
         $this->assertEquals(['red', 'green'], $options['colors']);
     }
 
-    /**
-     * @depends testGetOptions
-     */
-    public function testSettingOptionsViaMagicMethod()
+    #[Depends('testGetOptions')]
+    public function testSettingOptionsViaMagicMethod(): void
     {
         $chart = $this->makeLineChart();
 
@@ -80,10 +74,8 @@ class ChartTest extends ProvidersTestCase
         $this->assertEquals('out', $options['legend']['position']);
     }
 
-    /**
-     * @depends testGetOptions
-     */
-    public function testSettingStringValueOptionViaMagicMethod()
+    #[Depends('testGetOptions')]
+    public function testSettingStringValueOptionViaMagicMethod(): void
     {
         $chart = $this->makeLineChart();
 
@@ -94,10 +86,8 @@ class ChartTest extends ProvidersTestCase
         $this->assertEquals('Charts!', $options['title']);
     }
 
-    /**
-     * @depends testGetOptions
-     */
-    public function testSetOptions()
+    #[Depends('testGetOptions')]
+    public function testSetOptions(): void
     {
         $expected = [
             'title' => 'My Cool Chart',
@@ -116,11 +106,9 @@ class ChartTest extends ProvidersTestCase
         $this->assertEquals(768, $options['height']);
     }
 
-    /**
-     * @depends testSetOptions
-     * @depends testGetOptions
-     */
-    public function testMergeOptions()
+    #[Depends('testSetOptions')]
+    #[Depends('testGetOptions')]
+    public function testMergeOptions(): void
     {
         $expected = [
             'title' => 'My Cool Chart'
@@ -138,11 +126,9 @@ class ChartTest extends ProvidersTestCase
         $this->assertEquals(1024, $options['width']);
     }
 
-    /**
-     * @depends testSetOptions
-     * @depends testGetOptions
-     */
-    public function testCustomize()
+    #[Depends('testSetOptions')]
+    #[Depends('testGetOptions')]
+    public function testCustomize(): void
     {
         $expected = [
             'title' => 'My Cool Chart',
@@ -160,10 +146,8 @@ class ChartTest extends ProvidersTestCase
         $this->assertEquals(768, $options['height']);
     }
 
-    /**
-     * @depends testSettingOptionsViaMagicMethod
-     */
-    public function testOptionsToJson()
+    #[Depends('testSettingOptionsViaMagicMethod')]
+    public function testOptionsToJson(): void
     {
         $chart = $this->makeLineChart();
 

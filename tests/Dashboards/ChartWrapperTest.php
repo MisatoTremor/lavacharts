@@ -2,15 +2,21 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards;
 
+use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Depends;
 
+#[CoversMethod(Wrapper::class, 'getElementId')]
+#[CoversMethod(Wrapper::class, 'unwrap')]
+#[CoversMethod(Wrapper::class, 'getJsClass')]
 class ChartWrapperTest extends ProvidersTestCase
 {
     public $mockElementId;
     public $jsonOutput;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -40,10 +46,7 @@ class ChartWrapperTest extends ProvidersTestCase
             ->getMock();
     }
 
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Wrappers\Wrapper::getElementId
-     */
-    public function testGetElementId()
+    public function testGetElementId(): void
     {
         $areaChart = \Mockery::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
 
@@ -53,10 +56,7 @@ class ChartWrapperTest extends ProvidersTestCase
         $this->assertEquals('TestLabel', $chartWrapper->getElementIdStr());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Wrappers\Wrapper::unwrap
-     */
-    public function testUnwrap()
+    public function testUnwrap(): void
     {
         $areaChart = \Mockery::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
 
@@ -65,10 +65,7 @@ class ChartWrapperTest extends ProvidersTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $chartWrapper->unwrap());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Wrappers\Wrapper::getJsClass
-     */
-    public function testGetJsClass()
+    public function testGetJsClass(): void
     {
         $chart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')
             ->shouldReceive('setRenderable')
@@ -83,7 +80,7 @@ class ChartWrapperTest extends ProvidersTestCase
         $this->assertEquals($javascript, $chartWrapper->getJsClass());
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $chart = $this->getMockLineChart();
 
@@ -92,10 +89,8 @@ class ChartWrapperTest extends ProvidersTestCase
         $this->assertEquals($this->jsonOutput, json_encode($chartWrapper));
     }
 
-    /**
-     * @depends testJsonSerialize
-     */
-    public function testToJson()
+    #[Depends('testJsonSerialize')]
+    public function testToJson(): void
     {
         $chart = $this->getMockLineChart();
 
@@ -104,11 +99,9 @@ class ChartWrapperTest extends ProvidersTestCase
         $this->assertEquals($this->jsonOutput, $chartWrapper->toJson());
     }
 
-    /**
-     * @depends testGetJsClass
-     * @depends testToJson
-     */
-    public function testGetJsConstructor()
+    #[Depends('testGetJsClass')]
+    #[Depends('testToJson')]
+    public function testGetJsConstructor(): void
     {
         $chart = $this->getMockLineChart();
 

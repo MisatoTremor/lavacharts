@@ -63,7 +63,7 @@ class ScriptManager
      *
      * @param Options $options
      */
-    function __construct(Options $options)
+    public function __construct(Options $options)
     {
         $this->options = $options;
     }

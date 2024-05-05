@@ -4,22 +4,21 @@ namespace Khill\Lavacharts\Tests\Values;
 
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Values\Label;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class LabelTest extends ProvidersTestCase
 {
-    public function testLabelWithString()
+    public function testLabelWithString(): void
     {
         $label = new Label('TheChart');
 
         $this->assertEquals('TheChart', (string) $label);
     }
 
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLabel
-     */
-    public function testLabelWithBadTypes($badTypes)
+    #[DataProvider('nonStringProvider')]
+    public function testLabelWithBadTypes($badTypes): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidLabel::class);
         $label = new Label($badTypes);
     }
 }

@@ -50,7 +50,7 @@ class Options implements Arrayable, Jsonable
      * @param $option
      * @return mixed|null
      */
-    function __get($option)
+    public function __get($option)
     {
         return $this->has($option) ? $this->options[$option] : null;
     }
@@ -60,7 +60,7 @@ class Options implements Arrayable, Jsonable
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->toJson();
     }

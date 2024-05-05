@@ -13,3 +13,6 @@ composer.phar
 *.sublime-*
 *___jb*
 *DS_Store
+
+.phpunit.result.cache
+.phpunit.cache/

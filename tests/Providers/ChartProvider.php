@@ -38,7 +38,7 @@ class ChartProvider
      * @param DataTable $data
      * @return Chart
      */
-    public static function make($type, DataTable $data)
+    public static function make($type, DataTable $data): Chart
     {
         if (method_exists(static::class, $type)) {
             return static::$type($data);
@@ -51,7 +51,7 @@ class ChartProvider
      * @param DataTable $data
      * @return AnnotationChart
      */
-    public static function AnnotationChart(DataTable $data)
+    public static function AnnotationChart(DataTable $data): AnnotationChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new AnnotationChart('MyAnnotationChart', $data, [
             'elementId' => 'MyAnnotationChart',
@@ -63,7 +63,7 @@ class ChartProvider
      * @param DataTable $data
      * @return AreaChart
      */
-    public static function AreaChart(DataTable $data)
+    public static function AreaChart(DataTable $data): AreaChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new AreaChart('MyAreaChart', $data, [
             'elementId' => 'MyAreaChart',
@@ -81,7 +81,7 @@ class ChartProvider
      * @param DataTable $data
      * @return BarChart
      */
-    public static function BarChart(DataTable $data)
+    public static function BarChart(DataTable $data): BarChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new BarChart('MyBarChart', $data, [
             'elementId' => 'MyBarChart',
@@ -95,7 +95,7 @@ class ChartProvider
      * @param DataTable $data
      * @return BubbleChart
      */
-    public static function BubbleChart(DataTable $data)
+    public static function BubbleChart(DataTable $data): BubbleChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new BubbleChart('MyBubbleChart', $data, [
             'elementId' => 'MyBubbleChart',
@@ -124,7 +124,7 @@ class ChartProvider
      * @param DataTable $data
      * @return CalendarChart
      */
-    public static function CalendarChart(DataTable $data)
+    public static function CalendarChart(DataTable $data): CalendarChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new CalendarChart('MyCalendarChart', $data, [
             'elementId' => 'MyCalendarChart',
@@ -154,7 +154,7 @@ class ChartProvider
      * @param DataTable $data
      * @return CandlestickChart
      */
-    public static function CandlestickChart(DataTable $data)
+    public static function CandlestickChart(DataTable $data): CandlestickChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new CandlestickChart('MyCandlestickChart', $data, [
             'elementId' => 'MyCandlestickChart',
@@ -167,7 +167,7 @@ class ChartProvider
      * @param DataTable $data
      * @return ColumnChart
      */
-    public static function ColumnChart(DataTable $data)
+    public static function ColumnChart(DataTable $data): ColumnChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new ColumnChart('MyColumnChart', $data, [
             'elementId' => 'MyColumnChart',
@@ -183,7 +183,7 @@ class ChartProvider
      * @param DataTable $data
      * @return ComboChart
      */
-    public static function ComboChart(DataTable $data)
+    public static function ComboChart(DataTable $data): ComboChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new ComboChart('MyComboChart', $data, [
             'elementId' => 'MyComboChart',
@@ -209,7 +209,7 @@ class ChartProvider
      * @param DataTable $data
      * @return DonutChart
      */
-    public static function DonutChart(DataTable $data)
+    public static function DonutChart(DataTable $data): DonutChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new DonutChart('MyDonutChart', $data, [
             'elementId' => 'MyDonutChart'
@@ -220,7 +220,7 @@ class ChartProvider
      * @param DataTable $data
      * @return GanttChart
      */
-    public static function GanttChart(DataTable $data)
+    public static function GanttChart(DataTable $data): GanttChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new GanttChart('MyGanttChart', $data, [
             'elementId' => 'MyGanttChart',
@@ -232,7 +232,7 @@ class ChartProvider
      * @param DataTable $data
      * @return GaugeChart
      */
-    public static function GaugeChart(DataTable $data)
+    public static function GaugeChart(DataTable $data): GaugeChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new GaugeChart('MyGaugeChart', $data, [
             'elementId' => 'MyGaugeChart',
@@ -253,7 +253,7 @@ class ChartProvider
      * @param DataTable $data
      * @return GeoChart
      */
-    public static function GeoChart(DataTable $data)
+    public static function GeoChart(DataTable $data): GeoChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new GeoChart('MyGeoChart', $data, [
             'elementId' => 'MyGeoChart',
@@ -266,7 +266,7 @@ class ChartProvider
      * @param DataTable $data
      * @return HistogramChart
      */
-    public static function HistogramChart(DataTable $data)
+    public static function HistogramChart(DataTable $data): HistogramChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new HistogramChart('MyHistogramChart', $data, [
             'elementId' => 'MyHistogramChart',
@@ -279,7 +279,7 @@ class ChartProvider
      * @param DataTable $data
      * @return LineChart
      */
-    public static function LineChart(DataTable $data)
+    public static function LineChart(DataTable $data): LineChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new LineChart('MyLineChart', $data, [
             'elementId' => 'MyLineChart',
@@ -301,7 +301,7 @@ class ChartProvider
      * @param DataTable $data
      * @return OrgChart
      */
-    public static function OrgChart(DataTable $data)
+    public static function OrgChart(DataTable $data): OrgChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new OrgChart('MyOrgChart', $data, [
             'elementId' => 'MyOrgChart',
@@ -318,7 +318,7 @@ class ChartProvider
      * @param DataTable $data
      * @return PieChart
      */
-    public static function PieChart(DataTable $data)
+    public static function PieChart(DataTable $data): PieChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new PieChart('MyPieChart', $data, [
             'elementId' => 'MyPieChart',
@@ -336,7 +336,7 @@ class ChartProvider
      * @param DataTable $data
      * @return SankeyChart
      */
-    public static function SankeyChart(DataTable $data)
+    public static function SankeyChart(DataTable $data): SankeyChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $colors = [
             '#a6cee3',
@@ -370,7 +370,7 @@ class ChartProvider
      * @param DataTable $data
      * @return ScatterChart
      */
-    public static function ScatterChart(DataTable $data)
+    public static function ScatterChart(DataTable $data): ScatterChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new ScatterChart('MyScatterChart', $data, [
             'elementId' => 'MyScatterChart',
@@ -395,7 +395,7 @@ class ChartProvider
      * @param DataTable $data
      * @return SteppedAreaChart
      */
-    public static function SteppedAreaChart(DataTable $data)
+    public static function SteppedAreaChart(DataTable $data): SteppedAreaChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new SteppedAreaChart('MySteppedAreaChart', $data, [
             'title' => 'The decline of \'The 39 Steps\'',
@@ -411,7 +411,7 @@ class ChartProvider
      * @param DataTable $data
      * @return TableChart
      */
-    public static function TableChart(DataTable $data)
+    public static function TableChart(DataTable $data): TableChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new TableChart('MyTableChart', $data);
     }
@@ -420,7 +420,7 @@ class ChartProvider
      * @param DataTable $data
      * @return TimelineChart
      */
-    public static function TimelineChart(DataTable $data)
+    public static function TimelineChart(DataTable $data): TimelineChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new TimelineChart('MyTimelineChart', $data, [
             'elementId' => 'MyTimelineChart',
@@ -435,7 +435,7 @@ class ChartProvider
      * @param DataTable $data
      * @return TreeMapChart
      */
-    public static function TreeMapChart(DataTable $data)
+    public static function TreeMapChart(DataTable $data): TreeMapChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new TreeMapChart('MyTreeMapChart', $data, [
             'elementId' => 'MyTreeMapChart',
@@ -448,7 +448,7 @@ class ChartProvider
      * @param DataTable $data
      * @return WordTreeChart
      */
-    public static function WordTreeChart(DataTable $data)
+    public static function WordTreeChart(DataTable $data): WordTreeChart // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return new WordTreeChart('MyWordTreeChart', $data, [
             'elementId' => 'MyWordTreeChart',

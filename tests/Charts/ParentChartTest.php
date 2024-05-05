@@ -3,13 +3,15 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * @property \Khill\Lavacharts\Tests\Charts\MockChart mockChart
  */
-class ChartAndTraitsTest extends ProvidersTestCase
+#[\AllowDynamicProperties]
+class ParentChartTest extends ProvidersTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -18,19 +20,19 @@ class ChartAndTraitsTest extends ProvidersTestCase
         $this->mockChart = new MockChart($label, $this->partialDataTable);
     }
 
-    public function testLabelAssignedViaConstructor()
+    public function testLabelAssignedViaConstructor(): void
     {
         $this->assertEquals('TestChart', (string) $this->mockChart->getLabel());
     }
 
-    public function testDataTable()
+    public function testDataTable(): void
     {
         $this->mockChart->datatable($this->partialDataTable);
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DataTable', $this->mockChart->getDataTable());
     }
 
-    public function testCustomizeMethodToSetOptions()
+    public function testCustomizeMethodToSetOptions(): void
     {
         $this->mockChart->customize([
             'title'  => 'My Cool Chart',
@@ -50,10 +52,8 @@ class ChartAndTraitsTest extends ProvidersTestCase
         $this->assertEquals(768, $options['height']);
     }
 
-    /**
-     * @depends testCustomizeMethodToSetOptions
-     */
-    public function testOptionsToJson()
+    #[Depends('testCustomizeMethodToSetOptions')]
+    public function testOptionsToJson(): void
     {
         $this->mockChart->title('My Cool Chart');
         $this->mockChart->width(1024);

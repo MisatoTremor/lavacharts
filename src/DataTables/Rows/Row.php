@@ -109,7 +109,7 @@ class Row implements \ArrayAccess, \JsonSerializable
 
                 if ($cellValue === null) {
                     $rowData[] = new NullCell;
-                } else if ($cellValue instanceof Carbon) {
+                } elseif ($cellValue instanceof Carbon) {
                     $rowData[] = new DateCell($cellValue);
                 } else {
                     if (isset($dateTimeFormat)) {

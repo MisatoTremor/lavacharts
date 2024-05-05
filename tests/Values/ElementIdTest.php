@@ -4,22 +4,21 @@ namespace Khill\Lavacharts\Tests\Values;
 
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Values\ElementId;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ElementIdTest extends ProvidersTestCase
 {
-    public function testElementIdWithString()
+    public function testElementIdWithString(): void
     {
         $elementId = new ElementId('chart');
 
         $this->assertEquals('chart', (string) $elementId);
     }
 
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidElementId
-     */
-    public function testElementIdWithBadTypes($badTypes)
+    #[DataProvider('nonStringProvider')]
+    public function testElementIdWithBadTypes($badTypes): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidElementId::class);
         $elementId = new ElementId($badTypes);
     }
 }

@@ -3,12 +3,12 @@
     $sales->addDateColumn('Date')
           ->addNumberColumn('Orders');
 
-    foreach (range(2, 5) as $month) {
-        for ($a=0; $a < 20; $a++) {
-            $day = rand(1, 30);
-            $sales->addRow(["2014-${month}-${day}", rand(0,100)]);
-        }
+foreach (range(2, 5) as $month) {
+    for ($a=0; $a < 20; $a++) {
+        $day = rand(1, 30);
+        $sales->addRow(["2014-${month}-${day}", rand(0, 100)]);
     }
+}
 
     $lava->CalendarChart($title, $sales, [
         'title' => 'Cars Sold',

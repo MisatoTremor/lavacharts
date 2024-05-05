@@ -1,18 +1,21 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Formats;
+namespace Khill\Lavacharts\Tests\DataTables\Formats;
 
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Formats\ArrowFormat;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
-/**
- * @property \Khill\Lavacharts\DataTables\Formats\ArrowFormat arrowFormat
- */
+#[CoversClass(ArrowFormat::class)]
+#[CoversMethod(ArrowFormat::class, 'toJson')]
+#[CoversMethod(ArrowFormat::class, 'jsonSerialize')]
 class ArrowFormatTest extends ProvidersTestCase
 {
-    public $json = '{"base":1}';
+    public string $json = '{"base":1}';
+    private ArrowFormat $arrowFormat;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -21,38 +24,29 @@ class ArrowFormatTest extends ProvidersTestCase
         ]);
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\ArrowFormat
-     */
-    public function testConstructorOptionAssignment()
+    public function testConstructorOptionAssignment(): void
     {
         $this->assertEquals(1, $this->arrowFormat['base']);
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertEquals('ArrowFormat', $this->arrowFormat->getType());
     }
 
-    public function testGetJsClass()
+    public function testGetJsClass(): void
     {
         $jsClass = 'google.visualization.ArrowFormat';
 
         $this->assertEquals($jsClass, $this->arrowFormat->getJsClass());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\ArrowFormat::toJson()
-     */
-    public function testToJson()
+    public function testToJson(): void
     {
         $this->assertEquals($this->json, $this->arrowFormat->toJson());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\ArrowFormat::jsonSerialize()
-     */
-    public function testJsonSerialization()
+    public function testJsonSerialization(): void
     {
         $this->assertEquals($this->json, json_encode($this->arrowFormat));
     }

@@ -1,14 +1,18 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Dashboards\Filters;
+namespace Khill\Lavacharts\Tests\Dashboards;
 
 use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Filters\StringFilter;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
+#[CoversMethod(Filter::class, 'getType')]
 class FiltersTest extends ProvidersTestCase
 {
-    public function filterTypeProvider()
+    public static function filterTypeProvider(): array
     {
         return [
             ['CategoryFilter'],
@@ -19,10 +23,8 @@ class FiltersTest extends ProvidersTestCase
         ];
     }
 
-    /**
-     * @dataProvider filterTypeProvider
-     */
-    public function testConstructorWithColumnIndex($filterType)
+    #[DataProvider('filterTypeProvider')]
+    public function testConstructorWithColumnIndex($filterType): void
     {
         $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
 
@@ -33,10 +35,8 @@ class FiltersTest extends ProvidersTestCase
         $this->assertEquals(2, $options['filterColumnIndex']);
     }
 
-    /**
-     * @dataProvider filterTypeProvider
-     */
-    public function testConstructorWithColumnLabel($filterType)
+    #[DataProvider('filterTypeProvider')]
+    public function testConstructorWithColumnLabel($filterType): void
     {
         $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
 
@@ -47,11 +47,9 @@ class FiltersTest extends ProvidersTestCase
         $this->assertEquals('myColumnLabel', $options['filterColumnLabel']);
     }
 
-    /**
-     * @dataProvider filterTypeProvider
-     * @depends testConstructorWithColumnIndex
-     */
-    public function testConstructorWithColumnIndexAndOptions($filterType)
+    #[Depends('testConstructorWithColumnIndex')]
+    #[DataProvider('filterTypeProvider')]
+    public function testConstructorWithColumnIndexAndOptions($filterType): void
     {
         $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
 
@@ -62,11 +60,9 @@ class FiltersTest extends ProvidersTestCase
         $this->assertEquals(12.34, $options['floatOption']);
     }
 
-    /**
-     * @dataProvider filterTypeProvider
-     * @depends testConstructorWithColumnLabel
-     */
-    public function testGetWrapType($filterType)
+    #[Depends('testConstructorWithColumnLabel')]
+    #[DataProvider('filterTypeProvider')]
+    public function testGetWrapType($filterType): void
     {
         $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
 
@@ -75,21 +71,16 @@ class FiltersTest extends ProvidersTestCase
         $this->assertEquals('controlType', $filterClass->getWrapType());
     }
 
-    /**
-     * @depends testConstructorWithColumnIndex
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidParamType
-     */
-    public function testConstructorWithInvalidType()
+    #[Depends('testConstructorWithColumnIndex')]
+    public function testConstructorWithInvalidType(): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidParamType::class);
         new StringFilter(new \stdClass());
     }
 
-    /**
-     * @dataProvider filterTypeProvider
-     * @depends testConstructorWithColumnIndex
-     * @covers \Khill\Lavacharts\Dashboards\Filters\Filter::getType
-     */
-    public function testGetType($filterType)
+    #[Depends('testConstructorWithColumnIndex')]
+    #[DataProvider('filterTypeProvider')]
+    public function testGetType($filterType): void
     {
         $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
 

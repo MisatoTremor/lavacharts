@@ -2,9 +2,9 @@
     $temps = $lava->DataTable();
     $temps->addStringColumn('Type')
           ->addNumberColumn('Value')
-          ->addRow(['CPU', rand(0,100)])
-          ->addRow(['Case', rand(0,100)])
-          ->addRow(['Graphics', rand(0,100)]);
+          ->addRow(['CPU', rand(0, 100)])
+          ->addRow(['Case', rand(0, 100)])
+          ->addRow(['Graphics', rand(0, 100)]);
 
     $lava->GaugeChart($title, $temps, [
         'width' => $width,

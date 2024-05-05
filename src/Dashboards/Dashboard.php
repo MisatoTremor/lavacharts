@@ -80,8 +80,7 @@ class Dashboard implements DataTables, Renderable, Visualization
         Label $label,
         DataTable $datatable,
         ElementId $elementId = null
-    )
-    {
+    ) {
         $this->bindingFactory = new BindingFactory;
 
         $this->label     = $label;

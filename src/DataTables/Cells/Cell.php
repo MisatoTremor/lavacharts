@@ -10,13 +10,15 @@ use Khill\Lavacharts\Support\Customizable;
  *
  * Holds the information for a data point
  *
- * @package   Khill\Lavacharts\DataTables\Cells
- * @since     3.0.0
- * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @package       Khill\Lavacharts\DataTables\Cells
+ * @since         3.0.0
+ * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT      MIT
+ * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link          http://lavacharts.com                   Official Docs Site
+ * @license       http://opensource.org/licenses/MIT      MIT
+ *
+ * @property array p
  */
 class Cell extends Customizable
 {
@@ -35,13 +37,6 @@ class Cell extends Customizable
     protected $f;
 
     /**
-     * An array that is a map of custom values applied to the cell. (Optional)
-     *
-     * @var array
-     */
-    protected $p;
-
-    /**
      * Defines a Cell for a DataTable
      *
      * Each cell in the table holds a value. Cells optionally can take a
@@ -54,9 +49,10 @@ class Cell extends Customizable
      * numeric cell values of 1, 2, and 3.
      *
      *
-     * @param  string       $v The cell value
-     * @param  string       $f A string version of the v value
-     * @param  array|string $p A map of custom values applied to the cell
+     * @param string       $v The cell value
+     * @param string       $f A string version of the v value
+     * @param array|string $p A map of custom values applied to the cell
+     *
      * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
     public function __construct($v, $f = '', array $p = [])
@@ -74,13 +70,14 @@ class Cell extends Customizable
     /**
      * Mapping the 'p' attribute of the cell to it's options.
      *
-     * @since  3.1.0
-     * @param  string $attr
+     * @param string $attr
+     *
      * @return array
+     * @since  3.1.0
      */
     public function __get($attr)
     {
-        if ($attr == 'p') {
+        if ($attr === 'p') {
             return $this->getOptions();
         }
     }
@@ -88,13 +85,14 @@ class Cell extends Customizable
     /**
      * Allowing the 'p' attribute to be checked for options by using the hasOptions method.
      *
-     * @since  3.1.0
-     * @param  string $attr
+     * @param string $attr
+     *
      * @return bool
+     * @since  3.1.0
      */
-    function __isset($attr)
+    public function __isset($attr)
     {
-        if ($attr == 'p') {
+        if ($attr === 'p') {
             return $this->hasOptions();
         }
     }
@@ -138,11 +136,11 @@ class Cell extends Customizable
     {
         $json = ['v' => $this->v];
 
-        if ( ! empty($this->f)) {
+        if (!empty($this->f)) {
             $json['f'] = $this->f;
         }
 
-        if ( ! empty($this->options)) {
+        if (!empty($this->options)) {
             $json['p'] = $this->getOptions();
         }
 

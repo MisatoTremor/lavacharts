@@ -39,7 +39,7 @@ class DataFactory
      * @param  string $timezone Timezone to use while using Carbon
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public static function DataTable($columns = null, array $rows = [], $timezone = null)
+    public static function DataTable($columns = null, array $rows = [], $timezone = null) // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         if ($columns === null || gettype($columns) === 'string') {
             $timezone = $columns;
@@ -53,7 +53,7 @@ class DataFactory
 
         if (is_array($rows)) {
             $datatable->addRows($rows);
-        } else if ($rows instanceof \Closure) {
+        } elseif ($rows instanceof \Closure) {
             $datatable->addRows($rows());
         }
 

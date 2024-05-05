@@ -68,20 +68,18 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
         }
 
         if (method_exists($this, 'setPngOutput') &&
-            array_key_exists('png', $this->options))
-            {
+            array_key_exists('png', $this->options)) {
                 $this->setPngOutput($this->options['png']);
 
                 unset($this->options['png']);
-            }
+        }
 
         if (method_exists($this, 'setMaterialOutput') &&
-            array_key_exists('material', $this->options))
-            {
+            array_key_exists('material', $this->options)) {
                 $this->setMaterialOutput($this->options['material']);
 
                 unset($this->options['material']);
-            }
+        }
     }
 
 

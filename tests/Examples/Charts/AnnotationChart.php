@@ -1,5 +1,5 @@
 <?php
-    $data = $lava->DataTable();
+$data = $lava->DataTable();
     $data->addColumns([
         ['date',   'Date'],
         ['number', 'Kepler-22b mission'],

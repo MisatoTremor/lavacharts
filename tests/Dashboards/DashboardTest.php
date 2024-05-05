@@ -2,14 +2,32 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards;
 
+use Khill\Lavacharts\Dashboards\Bindings\Binding;
+use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
+use Khill\Lavacharts\Dashboards\Bindings\ManyToMany;
+use Khill\Lavacharts\Dashboards\Bindings\ManyToOne;
+use Khill\Lavacharts\Dashboards\Bindings\OneToMany;
+use Khill\Lavacharts\Dashboards\Bindings\OneToOne;
 use Khill\Lavacharts\Dashboards\Dashboard;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Depends;
 
-/**
- * @property \Khill\Lavacharts\Dashboards\Dashboard   dashboard
- */
+#[CoversClass(OneToOne::class)]
+#[CoversClass(OneToMany::class)]
+#[CoversClass(ManyToOne::class)]
+#[CoversClass(ManyToMany::class)]
+#[CoversClass(Binding::class)]
+#[CoversMethod(BindingFactory::class, 'create')]
+#[CoversMethod(Dashboard::class, 'bind')]
+#[CoversMethod(Dashboard::class, 'getBindings')]
+#[CoversMethod(Dashboard::class, 'setBindings')]
+#[CoversMethod(Dashboard::class, 'getBoundCharts')]
 class DashboardTest extends DashboardsTestCase
 {
-    public function setUp()
+    private Dashboard $dashboard;
+
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -20,21 +38,15 @@ class DashboardTest extends DashboardsTestCase
         );
     }
 
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidBindings
-     */
-    public function testBindingFactoryWithBadTypes()
+    public function testBindingFactoryWithBadTypes(): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidBindings::class);
         $this->dashboard->bind(612345, 'tacos');
         $this->dashboard->bind(61.345, []);
         $this->dashboard->bind([], false);
     }
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
-     */
-    public function testGetBindings()
+
+    public function testGetBindings(): void
     {
         $this->dashboard->bind($this->mockControlWrap, $this->mockChartWrap);
 
@@ -43,14 +55,8 @@ class DashboardTest extends DashboardsTestCase
         $this->assertTrue(is_array($bindings));
     }
 
-    /**
-     * @depends testGetBindings
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\OneToOne
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
-     */
-    public function testBindWithOneToOne()
+    #[Depends('testGetBindings')]
+    public function testBindWithOneToOne(): void
     {
         $this->dashboard->bind($this->mockControlWrap, $this->mockChartWrap);
 
@@ -60,14 +66,8 @@ class DashboardTest extends DashboardsTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToOne', $binding);
     }
 
-    /**
-     * @depends testGetBindings
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\OneToMany
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
-     */
-    public function testBindWithOneToMany()
+    #[Depends('testGetBindings')]
+    public function testBindWithOneToMany(): void
     {
         $this->dashboard->bind(
             $this->mockControlWrap,
@@ -80,14 +80,8 @@ class DashboardTest extends DashboardsTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToMany', $binding);
     }
 
-    /**
-     * @depends testGetBindings
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\ManyToOne
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
-     */
-    public function testBindWithManyToOne()
+    #[Depends('testGetBindings')]
+    public function testBindWithManyToOne(): void
     {
         $this->dashboard->bind(
             [$this->mockControlWrap, $this->mockControlWrap],
@@ -100,14 +94,8 @@ class DashboardTest extends DashboardsTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\ManyToOne', $binding);
     }
 
-    /**
-     * @depends testGetBindings
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\ManyToMany
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
-     */
-    public function testBindWithManyToMany()
+    #[Depends('testGetBindings')]
+    public function testBindWithManyToMany(): void
     {
         $this->dashboard->bind(
             [$this->mockControlWrap, $this->mockControlWrap],
@@ -120,12 +108,8 @@ class DashboardTest extends DashboardsTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\ManyToMany', $binding);
     }
 
-    /**
-     * @depends testGetBindings
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
-     * @covers \Khill\Lavacharts\Dashboards\Bindings\Binding
-     */
-    public function testGettingComponentsFromBinding()
+    #[Depends('testGetBindings')]
+    public function testGettingComponentsFromBinding(): void
     {
         $this->dashboard->bind($this->mockControlWrap, $this->mockChartWrap);
 
@@ -133,15 +117,13 @@ class DashboardTest extends DashboardsTestCase
         $binding = $this->dashboard->getBindings()[0];
 
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToOne', $binding);
-        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper',$binding->getControlWrappers()[0]);
+        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper', $binding->getControlWrappers()[0]);
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper', $binding->getChartWrappers()[0]);
     }
-    /**
-     * @depends testGetBindings
-     * @depends testBindWithOneToMany
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBoundCharts
-     */
-    public function testGetBoundChartsWithOneToMany()
+
+    #[Depends('testGetBindings')]
+    #[Depends('testBindWithOneToMany')]
+    public function testGetBoundChartsWithOneToMany(): void
     {
         $mockLineChartWrapper = \Mockery::mock('\Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper', [
             \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')->makePartial(),
@@ -171,12 +153,9 @@ class DashboardTest extends DashboardsTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $charts[1]);
     }
 
-    /**
-     * @depends testGetBindings
-     * @depends testBindWithOneToOne
-     * @covers \Khill\Lavacharts\Dashboards\Dashboard::setBindings
-     */
-    public function testSetBindingsWithMultipleOneToOne()
+    #[Depends('testGetBindings')]
+    #[Depends('testBindWithOneToOne')]
+    public function testSetBindingsWithMultipleOneToOne(): void
     {
         $this->dashboard->setBindings([
             [$this->mockControlWrap, $this->mockChartWrap],

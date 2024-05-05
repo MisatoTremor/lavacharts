@@ -2,15 +2,19 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Rows;
 
+use Khill\Lavacharts\DataTables\Rows\Row;
+use Khill\Lavacharts\Exceptions\InvalidParamType;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Rows\NullRow;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
+#[CoversMethod(NullRow::class, '__construct')]
+#[CoversMethod(Row::class, 'jsonSerialize')]
 class NullRowTest extends ProvidersTestCase
 {
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Rows\NullRow::__construct
-     */
-    public function testConstructorWithInt()
+    public function testConstructorWithInt(): void
     {
         $row = new NullRow(3);
 
@@ -18,24 +22,18 @@ class NullRowTest extends ProvidersTestCase
 
         array_walk($values, function ($value) {
             $this->assertNull($value->getValue());
-}       );
+        });
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Rows\NullRow::__construct
-     * @dataProvider nonIntProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidParamType
-     */
-    public function testConstructorWithBadTypes($badTypes)
+    #[DataProvider('nonIntProvider')]
+    public function testConstructorWithBadTypes($badTypes): void
     {
+        $this->expectException(InvalidParamType::class);
         new NullRow($badTypes);
     }
 
-    /**
-     * @depends testConstructorWithInt
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::jsonSerialize
-     */
-    public function testJsonSerialization()
+    #[Depends('testConstructorWithInt')]
+    public function testJsonSerialization(): void
     {
         $row = new NullRow(3);
 
@@ -44,6 +42,3 @@ class NullRowTest extends ProvidersTestCase
         $this->assertEquals($json, json_encode($row));
     }
 }
-
-
-

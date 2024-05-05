@@ -4,7 +4,11 @@ namespace Khill\Lavacharts\Tests\DataTables\Columns;
 
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
+#[CoversMethod(ColumnFactory::class, 'create')]
 class ColumnFactoryTest extends ProvidersTestCase
 {
     /**
@@ -12,18 +16,15 @@ class ColumnFactoryTest extends ProvidersTestCase
      */
     public $columnFactory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->columnFactory = new ColumnFactory;
     }
 
-    /**
-     * @dataProvider columnTypeProvider
-     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
-     */
-    public function testCreateColumnsWithType($columnType)
+    #[DataProvider('columnTypeProvider')]
+    public function testCreateColumnsWithType($columnType): void
     {
         $column = $this->columnFactory->create($columnType);
 
@@ -31,31 +32,22 @@ class ColumnFactoryTest extends ProvidersTestCase
         $this->assertEquals($columnType, $this->inspect($column, 'type'));
     }
 
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
-     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
-     */
-    public function testCreateColumnsWithBadValue()
+    public function testCreateColumnsWithBadValue(): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidColumnType::class);
         $this->columnFactory->create('milkshakes');
     }
 
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
-     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
-     */
-    public function testCreateColumnsWithBadTypes($badTypes)
+    #[DataProvider('nonStringProvider')]
+    public function testCreateColumnsWithBadTypes($badTypes): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidColumnType::class);
         $this->columnFactory->create($badTypes);
     }
 
-    /**
-     * @dataProvider columnTypeProvider
-     * @depends testCreateColumnsWithType
-     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
-     */
-    public function testCreateColumnsWithTypeAndLabel($columnType)
+    #[Depends('testCreateColumnsWithType')]
+    #[DataProvider('columnTypeProvider')]
+    public function testCreateColumnsWithTypeAndLabel($columnType): void
     {
         $column = $this->columnFactory->create($columnType, 'Label');
 
@@ -64,12 +56,9 @@ class ColumnFactoryTest extends ProvidersTestCase
         $this->assertEquals('Label', $this->inspect($column, 'label'));
     }
 
-    /**
-     * @dataProvider columnTypeProvider
-     * @depends testCreateColumnsWithTypeAndLabel
-     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
-     */
-    public function testCreateColumnsWithTypeAndLabelAndFormat($columnType)
+    #[Depends('testCreateColumnsWithTypeAndLabel')]
+    #[DataProvider('columnTypeProvider')]
+    public function testCreateColumnsWithTypeAndLabelAndFormat($columnType): void
     {
         $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
@@ -81,12 +70,9 @@ class ColumnFactoryTest extends ProvidersTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->inspect($column, 'format'));
     }
 
-    /**
-     * @dataProvider columnTypeProvider
-     * @depends testCreateColumnsWithTypeAndLabelAndFormat
-     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
-     */
-    public function testCreateColumnsWithTypeAndLabelAndFormatAndRole($columnType)
+    #[Depends('testCreateColumnsWithTypeAndLabelAndFormat')]
+    #[DataProvider('columnTypeProvider')]
+    public function testCreateColumnsWithTypeAndLabelAndFormatAndRole($columnType): void
     {
         $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
@@ -101,13 +87,10 @@ class ColumnFactoryTest extends ProvidersTestCase
         //$this->assertEquals('interval', $this->inspect($column, 'role'));
     }
 
-    /**
-     * @depends testCreateColumnsWithTypeAndLabelAndFormatAndRole
-     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnRole
-     */
-    public function testCreateColumnsWithTypeAndLabelAndFormatAndRoleWithBadRole()
+    #[Depends('testCreateColumnsWithTypeAndLabelAndFormatAndRole')]
+    public function testCreateColumnsWithTypeAndLabelAndFormatAndRoleWithBadRole(): void
     {
+        $this->expectException(\Khill\Lavacharts\Exceptions\InvalidColumnRole::class);
         $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
         $this->columnFactory->create('number', 'Label', $mockFormat, 'tacos');

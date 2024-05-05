@@ -1,18 +1,23 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Formats;
+namespace Khill\Lavacharts\Tests\DataTables\Formats;
 
+use Khill\Lavacharts\DataTables\Formats\DateFormat;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Formats\NumberFormat;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
-/**
- * @property \Khill\Lavacharts\DataTables\Formats\NumberFormat numberFormat
- */
+#[CoversClass(NumberFormat::class)]
+#[CoversMethod(DateFormat::class, 'toJson')]
+#[CoversMethod(DateFormat::class, 'jsonSerialize')]
+#[\AllowDynamicProperties]
 class NumberFormatTest extends ProvidersTestCase
 {
     public $json = '{"decimalSymbol":".","fractionDigits":2,"groupingSymbol":",","negativeColor":"red","negativeParens":true,"pattern":"#,###","prefix":"$","suffix":"\/hr"}';
+    private NumberFormat $numberFormat;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -28,10 +33,7 @@ class NumberFormatTest extends ProvidersTestCase
         ]);
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\NumberFormat
-     */
-    public function testConstructorOptionAssignment()
+    public function testConstructorOptionAssignment(): void
     {
         $this->assertEquals('.', $this->numberFormat['decimalSymbol']);
         $this->assertEquals(2, $this->numberFormat['fractionDigits']);
@@ -43,32 +45,26 @@ class NumberFormatTest extends ProvidersTestCase
         $this->assertEquals('/hr', $this->numberFormat['suffix']);
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $numberFormat = new NumberFormat;
 
         $this->assertEquals('NumberFormat', $numberFormat->getType());
     }
 
-    public function testGetJsClass()
+    public function testGetJsClass(): void
     {
         $jsClass = 'google.visualization.NumberFormat';
 
         $this->assertEquals($jsClass, $this->numberFormat->getJsClass());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat::toJson()
-     */
-    public function testToJson()
+    public function testToJson(): void
     {
         $this->assertEquals($this->json, $this->numberFormat->toJson());
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat::jsonSerialize()
-     */
-    public function testJsonSerialization()
+    public function testJsonSerialization(): void
     {
         $this->assertEquals($this->json, json_encode($this->numberFormat));
     }

@@ -46,50 +46,50 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
         </div>
         <h1><?= $chartType ?></h1>
         <div class="render" id="<?= $elemId ?>">
-            <? if ($chartType == 'Dashboard') { ?>
+            <?php if ($chartType == 'Dashboard') { ?>
                 <div id="chart-div-id"></div>
                 <div id="control-div-id"></div>
-            <? } ?>
+            <?php } ?>
         </div>
         <?php
         if ($chartType !== "") {
-        ?>
-            <? if (strpos($chartType, 'To') > 0) { ?>
+            ?>
+            <?php if (strpos($chartType, 'To') > 0) { ?>
             <div id="<?= $elemId ?>">
                 <div id="chart1-div-id"></div>
                     <div id="chart2-div-id"></div>
                     <div id="control1-div-id"></div>
                     <div id="control2-div-id"></div>
-                <? } ?>
+            <?php } ?>
             </div>
             <h2>Code</h2>
             <pre class="grey">
             <?php
-                if (strpos($chartType, 'Chart') > 0) {
-                    $file = file_get_contents(__DIR__ . '/Charts/' . $chartType . '.php');
-                } else {
-                    $file = file_get_contents(__DIR__ . '/Dashboards/' . $chartType . '.php');
-                }
+            if (strpos($chartType, 'Chart') > 0) {
+                $file = file_get_contents(__DIR__ . '/Charts/' . $chartType . '.php');
+            } else {
+                $file = file_get_contents(__DIR__ . '/Dashboards/' . $chartType . '.php');
+            }
 
                 echo ltrim($file, '<?php');
             ?>
             </pre>
-<?php
+            <?php
             if (strpos($chartType, 'Chart') > 0) {
                 echo $lava->render($chartType, $title, $elemId);
             } else {
                 echo $lava->render('Dashboard', 'MyDashboard', $elemId);
             }
         } else {
-?>
+            ?>
             <div class="float">
             <h1>Charts</h1>
             <ul>
-<?php
+            <?php
             foreach (ChartFactory::getChartTypes() as $chartType) {
                 echo sprintf('<li><a href="%1$s">%1$s</a></li>', $chartType);
             }
-?>
+            ?>
             </ul>
             </div>
 
@@ -103,9 +103,9 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
                     <li><a href="OneToOneDateFilter">One to One [DateFilter]</a></li>
                 </ul>
             </div>
-<?php
+            <?php
         }
-?>
+        ?>
     </body>
 </html>
 

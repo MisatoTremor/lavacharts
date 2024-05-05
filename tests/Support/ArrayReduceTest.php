@@ -2,21 +2,15 @@
 
 namespace Khill\Lavacharts\Tests\Support;
 
-class Foo {
-    public $fooVar = 1;
-}
+use PHPUnit\Framework\TestCase;
 
-class Bar {
-    public $barVar = 2;
-}
-
-class ArrayReduceTest extends \PHPUnit_Framework_TestCase
+class ArrayReduceTest extends TestCase
 {
     public $mixedTypes;
     public $randomTypes;
     public $sameTypes;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +27,7 @@ class ArrayReduceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testArrayReduceWithSameType()
+    public function testArrayReduceWithSameType(): void
     {
         $check = array_reduce($this->sameTypes, function ($prev, $curr) {
             return $prev && $curr instanceof Foo;
@@ -42,7 +36,7 @@ class ArrayReduceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($check);
     }
 
-    public function testArrayReduceWithMixedTypes()
+    public function testArrayReduceWithMixedTypes(): void
     {
         $check = array_reduce($this->mixedTypes, function ($prev, $curr) {
             return $prev && $curr instanceof Foo;
@@ -51,7 +45,7 @@ class ArrayReduceTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($check);
     }
 
-    public function testArrayReduceWithRandomTypes()
+    public function testArrayReduceWithRandomTypes(): void
     {
         $check = array_reduce($this->randomTypes, function ($prev, $curr) {
             return $prev && $curr instanceof Foo;

@@ -14,7 +14,7 @@ class DataTableProvider
      * @param string $type
      * @return DataTable
      */
-    public static function get($type)
+    public static function get($type): DataTable
     {
         if (method_exists(static::class, $type)) {
             return static::$type();
@@ -26,7 +26,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function AnnotationChart()
+    public static function AnnotationChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addColumns([
@@ -58,7 +58,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function AreaChart()
+    public static function AreaChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->setDateTimeFormat('Y');
@@ -79,16 +79,16 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function BarChart()
+    public static function BarChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addStringColumn('Food')
              ->addNumberColumn('Votes')
-             ->addRow(['Tacos', rand(1000,5000)])
-             ->addRow(['Salad', rand(1000,5000)])
-             ->addRow(['Pizza', rand(1000,5000)])
-             ->addRow(['Apples', rand(1000,5000)])
-             ->addRow(['Fish', rand(1000,5000)]);
+             ->addRow(['Tacos', rand(1000, 5000)])
+             ->addRow(['Salad', rand(1000, 5000)])
+             ->addRow(['Pizza', rand(1000, 5000)])
+             ->addRow(['Apples', rand(1000, 5000)])
+             ->addRow(['Fish', rand(1000, 5000)]);
 
         return $data;
     }
@@ -96,7 +96,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function BubbleChart()
+    public static function BubbleChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = DataTable::fromArray([
             ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
@@ -118,7 +118,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function CalendarChart()
+    public static function CalendarChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addDateColumn('Date')
@@ -127,7 +127,7 @@ class DataTableProvider
         foreach (range(2, 5) as $month) {
             for ($a=0; $a < 20; $a++) {
                 $day = rand(1, 30);
-                $data->addRow(["2014-${month}-${day}", rand(0,100)]);
+                $data->addRow(["2014-${month}-${day}", rand(0, 100)]);
             }
         }
 
@@ -137,7 +137,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function CandlestickChart()
+    public static function CandlestickChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = DataTable::fromArray([
             ['Mon', 20, 28, 38, 45],
@@ -154,7 +154,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function ColumnChart()
+    public static function ColumnChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addColumn('date', 'Year')
@@ -172,7 +172,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function ComboChart()
+    public static function ComboChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addDateColumn('Year')
@@ -191,7 +191,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function DonutChart()
+    public static function DonutChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         return static::PieChart();
     }
@@ -199,7 +199,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function GanttChart()
+    public static function GanttChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $daysToMilliseconds = function ($days) {
             return $days * 24 * 60 * 60 * 1000;
@@ -235,14 +235,14 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function GaugeChart()
+    public static function GaugeChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addStringColumn('Type')
              ->addNumberColumn('Value')
-             ->addRow(['CPU', rand(0,100)])
-             ->addRow(['Case', rand(0,100)])
-             ->addRow(['Graphics', rand(0,100)]);
+             ->addRow(['CPU', rand(0, 100)])
+             ->addRow(['Case', rand(0, 100)])
+             ->addRow(['Graphics', rand(0, 100)]);
 
         return $data;
     }
@@ -250,7 +250,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function GeoChart()
+    public static function GeoChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addStringColumn('Country')
@@ -268,7 +268,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function HistogramChart()
+    public static function HistogramChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = DataTable::fromArray([
             ['Dinosaur', 'Length'],
@@ -308,7 +308,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function LineChart()
+    public static function LineChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = DataTable::create([
             ['date', 'Dates'],
@@ -340,7 +340,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function OrgChart()
+    public static function OrgChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addColumns([
@@ -364,7 +364,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function PieChart()
+    public static function PieChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addColumn('string', 'Reasons')
@@ -380,7 +380,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function SankeyChart()
+    public static function SankeyChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addColumn('string', 'From')
@@ -401,7 +401,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function ScatterChart()
+    public static function ScatterChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addNumberColumn('Age')
@@ -417,7 +417,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function SteppedAreaChart()
+    public static function SteppedAreaChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = DataTable::create([
             ['string', 'Director (Year)'],
@@ -436,7 +436,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function TableChart()
+    public static function TableChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addDateColumn('Month')
@@ -457,7 +457,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function TimelineChart()
+    public static function TimelineChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = new DataTable();
         $data->addStringColumn('Room');
@@ -479,7 +479,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function TreeMapChart()
+    public static function TreeMapChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = DataTable::fromArray([
             ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
@@ -519,7 +519,7 @@ class DataTableProvider
     /**
      * @return DataTable
      */
-    public static function WordTreeChart()
+    public static function WordTreeChart(): DataTable // phpcs:ignore PSR1.Methods.CamelCapsMethodName
     {
         $data = DataTable::fromArray([
             ['Phrases'],

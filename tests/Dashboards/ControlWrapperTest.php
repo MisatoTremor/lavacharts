@@ -2,15 +2,19 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards;
 
+use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Depends;
 
+#[CoversMethod(Wrapper::class, 'getJsClass')]
 class ControlWrapperTest extends ProvidersTestCase
 {
     public $mockElementId;
     public $jsonOutput;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -37,10 +41,7 @@ class ControlWrapperTest extends ProvidersTestCase
             ->getMock();
     }
 
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Wrappers\Wrapper::getJsClass
-     */
-    public function testGetJsClass()
+    public function testGetJsClass(): void
     {
         $filter = \Mockery::mock('\Khill\Lavacharts\Dashboards\Filters\StringFilter');
 
@@ -51,7 +52,7 @@ class ControlWrapperTest extends ProvidersTestCase
         $this->assertEquals($javascript, $controlWrapper->getJsClass());
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $filter = $this->getMockFilter();
 
@@ -60,10 +61,8 @@ class ControlWrapperTest extends ProvidersTestCase
         $this->assertEquals($this->jsonOutput, json_encode($controlWrapper));
     }
 
-    /**
-     * @depends testJsonSerialize
-     */
-    public function testToJson()
+    #[Depends('testJsonSerialize')]
+    public function testToJson(): void
     {
         $filter = $this->getMockFilter();
 
@@ -72,11 +71,9 @@ class ControlWrapperTest extends ProvidersTestCase
         $this->assertEquals($this->jsonOutput, $controlWrapper->toJson());
     }
 
-    /**
-     * @depends testGetJsClass
-     * @depends testToJson
-     */
-    public function testGetJsConstructor()
+    #[Depends('testGetJsClass')]
+    #[Depends('testToJson')]
+    public function testGetJsConstructor(): void
     {
         $filter = $this->getMockFilter();
 
